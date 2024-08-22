@@ -62,7 +62,7 @@ function greet(name){
     console.log(`Hello ${name}😃 `);
 }
 
-greet("John");
+greet("omar");
 
 function sum(a, b){
     return a + b;
