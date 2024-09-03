@@ -14,7 +14,7 @@ let asyncData = async ()=> {
     let data = await response.json();
     function printTitle(){
         let random = Math.floor(Math.random()*100);
-        let x = random + ` ${data[random].title}`;
+        let x = random + ` ${data[random].body}`;
         document.querySelector('.paragraph').textContent = x ;
     }
     setInterval(printTitle,3000)
