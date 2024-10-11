@@ -1,0 +1,22 @@
+{
+  "name": "event-booking-system",
+  "version": "1.0.0",
+  "description": "Create an event booking system where users can browse events, book",
+  "main": "s. Implement JWT for authentication to ensure that",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "omar harb",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.1"
+  }
+}
