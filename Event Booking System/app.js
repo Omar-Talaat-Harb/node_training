@@ -1,13 +1,13 @@
 const dotenv = require('dotenv');
 const express = require("express");
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 dotenv.config({path:'./config.env'});
 const mongoose = require("mongoose");
 const app = express();
 const userRoute = require('./routes/auth');
 const eventRoute=require('./routes/event');
 app.use(express.json());    
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 
 app.get("/", (req, res) => {

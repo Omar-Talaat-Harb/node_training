@@ -1,17 +1,21 @@
 const express = require("express");
 const Event = require("../models/Event");
 const router = express.Router();
+const bodyParser = require('body-parser');
+const app = express();  
+app.use(bodyParser.json());
+app.use(express.json()); 
 const {eventValidation} = require('../validation');
 const verifyToken = require('./verifyToken');
 
-const app = express();  // Initialize Express app
-app.use(express.json()); 
+
 
 
 // Search events by title (or list all events if no title query provided)
-router.get('/',async (req, res) => {
+router.get('/',verifyToken,async (req, res) => {
     const { title } = req.query;
     console.log(title);
+    console.log(req.user); //read as undefined?!
     let filter = {};
     if (title) {
     //   // Use MongoDB's $regex for case-insensitive partial match search
@@ -27,7 +31,7 @@ router.get('/',async (req, res) => {
 
 // Create a new event   
 
-router.post('/',async (req, res) => {
+router.post('/',verifyToken,async (req, res) => {
     // console.log(req.user);
     // if(req.user.role !== 'admin')return res.status(403).send('Admin only');
     let {title, date, description,availableTickets} = req.body;
@@ -67,7 +71,7 @@ const getEvent = async function getEventByTitle(req, res, next) {
     next();
     }
 
-router.patch('/title/:title',getEvent, async (req, res) => {
+router.patch('/title/:title',verifyToken,getEvent, async (req, res) => {
     let {title, date, description,availableTickets} = req.body;
 
     if (title != null) {
@@ -80,20 +84,20 @@ router.patch('/title/:title',getEvent, async (req, res) => {
     res.event.date = new Date(date); // Ensure the date is properly formatted
     }
     if (availableTickets != null) {
-        res.event.availableTickets = availableTickets; // Ensure the date is properly formatted
+        res.event.availableTickets = availableTickets;
     }
     // Save the updated event to the database
     try {
     await res.event.save();
-        return res.json(res.event); // Return the updated event as a response
+        return res.json(res.event); 
     } catch (err) {
-        res.status(400).json({ message: err.message }); // Handle validation/save errors
+        res.status(400).json({ message: err.message });
     }
 });
 
     // Delete an existing event
     
-router.delete('/title/:title', async (req, res) => {
+router.delete('/title/:title',verifyToken,async (req, res) => {
     const event = await Event.findOneAndDelete({ title: { $regex: new RegExp(req.params.title, 'i')} });
     console.log(event)
     if (!event) {
